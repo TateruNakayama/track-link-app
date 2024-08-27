@@ -1,9 +1,10 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native'
 import { Link, router } from 'expo-router'
 import { useState } from 'react'
-import { signInWithEmailAndPassword} from 'firebase/auth'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../config'
 
+import logo from '../../../assets/logo.png'
 import Button from '../../components/Button'
 
 const handlePress = (email: string, password: string): void => {
@@ -14,8 +15,8 @@ const handlePress = (email: string, password: string): void => {
             router.replace('/memo/list')
         })
         .catch((error) => {
-            const {code,message} = error
-            console.log(code,message)
+            const { code, message } = error
+            console.log(code, message)
             Alert.alert(message)
         })
 }
@@ -26,6 +27,7 @@ const Login = (): JSX.Element => {
     return (
         <View style={styles.container}>
             <View style={styles.inner}>
+            <Image source={logo} style={styles.logo} />
                 <Text style={styles.title}>Log In</Text>
                 <TextInput
                     style={styles.input}
@@ -63,6 +65,16 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F0F4F8'
+    },
+    logo: {
+        width: 300,
+        height: 300,
+        marginBottom: 24
+    },
+    image: {
+        flex: 1,
+        width: '100%',
+        backgroundColor: '#0553'
     },
     inner: {
         paddingVertical: 24,
