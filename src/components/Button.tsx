@@ -4,6 +4,7 @@ interface Props {
     label: string
     style?: ViewStyle
     onPress?: () => void
+    
 }
 
 const Button = (props: Props): JSX.Element => {

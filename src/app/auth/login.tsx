@@ -1,10 +1,10 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image, Dimensions} from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image, Dimensions,} from 'react-native'
 import { Link, router } from 'expo-router'
 import { useState } from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../config'
 
-import logo from '../../../assets/logo.png'
+import mainlogo from '../../../assets/mainlogo.png'
 import Button from '../../components/Button'
 
 const handlePress = (email: string, password: string): void => {
@@ -24,11 +24,12 @@ const handlePress = (email: string, password: string): void => {
 const Login = (): JSX.Element => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const isDisabled = !email || !password
     return (
         <View style={styles.container}>
             <View style={styles.inner}>
-            <Image source={logo} style={styles.logo} />
-            <Text style={styles.title}>track link</Text>
+            <Image source={mainlogo} style={styles.logo} />
+            <Text style={styles.title}>Track Link</Text>
                 <TextInput
                     style={styles.input}
                     value={email}
@@ -47,12 +48,14 @@ const Login = (): JSX.Element => {
                     placeholder='Password'
                     textContentType='password'
                 />
-                <Button onPress={() => { handlePress(email, password) }} label='Login' style={{ alignSelf: 'center' }} />
+
+                <Button onPress={() => { handlePress(email, password) }} label='Submit' />                
+
                 <View style={styles.footer}>
-                    <Text style={styles.footerText}>Not registered?</Text>
+                    <Text style={styles.footerText}>新規会員登録の方は</Text>
                     <Link href='/auth/signup' asChild>
                         <TouchableOpacity>
-                            <Text style={styles.footerLink}>Sign up here!</Text>
+                            <Text style={styles.footerLink}>こちら</Text>
                         </TouchableOpacity>
                     </Link>
                 </View>
@@ -63,15 +66,18 @@ const Login = (): JSX.Element => {
 
 const { width } = Dimensions.get('window');
 
+
+
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#2C2C2C'
     },
     logo: {
-        width: width * 0.7,
-        height: width * 0.7,
-        marginTop: 80,
+        width: width * 0.4,
+        height: width * 0.4,
+        marginTop: 122,
         marginBottom: 24,
         alignSelf: 'center'
     },
@@ -88,9 +94,9 @@ const styles = StyleSheet.create({
         fontSize: 28,
         lineHeight: 32,
         fontWeight: 'bold',
-        marginBottom: 24,
+        marginBottom: 110,
         color: '#F86456',
-        textAlign: 'center'
+        textAlign: 'center',
     },
     input: {
         backgroundColor: '#ffffff',
@@ -101,6 +107,12 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginBottom: 16,
         borderRadius: 10
+    },
+    enabledButton: {
+        backgroundColor: '#467FD3',
+    },
+    disabledButton: {
+        backgroundColor: '#A9A9A9',
     },
     footer: {
         flexDirection: 'row',

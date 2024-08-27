@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../config'
 
-import logo from '../../../assets/logo.png'
+import mainlogo from '../../../assets/mainlogo.png'
 import Button from '../../components/Button'
 
 const handlePress = (email: string, password: string): void => {
@@ -27,8 +27,8 @@ const SignUp = (): JSX.Element => {
     return (
         <View style={styles.container}>
             <View style={styles.inner}>
-                <Image source={logo} style={styles.logo} />
-                <Text style={styles.title}>track link</Text>
+                <Image source={mainlogo} style={styles.logo} />
+                <Text style={styles.title}>Track Link</Text>
                 <TextInput
                     style={styles.input}
                     value={email}
@@ -69,8 +69,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#2C2C2C'
     },
     logo: {
-        width: width * 0.7,
-        height: width * 0.7,
+        width: width * 0.4,
+        height: width * 0.4,
         marginTop: 80,
         marginBottom: 24,
         alignSelf: 'center'
