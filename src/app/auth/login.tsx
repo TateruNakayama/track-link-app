@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image, Dimensions} from 'react-native'
 import { Link, router } from 'expo-router'
 import { useState } from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
@@ -47,7 +47,7 @@ const Login = (): JSX.Element => {
                     placeholder='Password'
                     textContentType='password'
                 />
-                <Button onPress={() => { handlePress(email, password) }} label='Submit' />
+                <Button onPress={() => { handlePress(email, password) }} label='ログイン' style={{ alignSelf: 'center' }} />
                 <View style={styles.footer}>
                     <Text style={styles.footerText}>Not registered?</Text>
                     <Link href='/auth/signup' asChild>
@@ -61,15 +61,19 @@ const Login = (): JSX.Element => {
     )
 }
 
+const { width } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F0F4F8'
+        backgroundColor: '#2C2C2C'
     },
     logo: {
-        width: 300,
-        height: 300,
-        marginBottom: 24
+        width: width * 0.7,
+        height: width * 0.7,
+        marginTop: 80,
+        marginBottom: 24,
+        alignSelf: 'center'
     },
     image: {
         flex: 1,
@@ -84,8 +88,9 @@ const styles = StyleSheet.create({
         fontSize: 24,
         lineHeight: 32,
         fontWeight: 'bold',
-        marginBottom: 24
-
+        marginBottom: 24,
+        textAlign: 'center',
+        color: '#F86456'
     },
     input: {
         backgroundColor: '#ffffff',
@@ -97,13 +102,14 @@ const styles = StyleSheet.create({
         marginBottom: 16
     },
     footer: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        justifyContent: 'center'
     },
     footerText: {
         fontSize: 14,
         lineHeight: 24,
         marginRight: 8,
-        color: '#000000'
+        color: '#ffffff'
     },
     footerLink: {
         fontSize: 14,
@@ -111,5 +117,6 @@ const styles = StyleSheet.create({
         color: '#467FD3'
     }
 })
+
 
 export default Login
