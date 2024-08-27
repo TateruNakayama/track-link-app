@@ -28,7 +28,7 @@ const Login = (): JSX.Element => {
         <View style={styles.container}>
             <View style={styles.inner}>
             <Image source={logo} style={styles.logo} />
-                <Text style={styles.title}>Log In</Text>
+            <Text style={styles.title}>track link</Text>
                 <TextInput
                     style={styles.input}
                     value={email}
@@ -47,7 +47,7 @@ const Login = (): JSX.Element => {
                     placeholder='Password'
                     textContentType='password'
                 />
-                <Button onPress={() => { handlePress(email, password) }} label='ログイン' style={{ alignSelf: 'center' }} />
+                <Button onPress={() => { handlePress(email, password) }} label='Login' style={{ alignSelf: 'center' }} />
                 <View style={styles.footer}>
                     <Text style={styles.footerText}>Not registered?</Text>
                     <Link href='/auth/signup' asChild>
@@ -85,12 +85,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 27
     },
     title: {
-        fontSize: 24,
+        fontSize: 28,
         lineHeight: 32,
         fontWeight: 'bold',
         marginBottom: 24,
-        textAlign: 'center',
-        color: '#F86456'
+        color: '#F86456',
+        textAlign: 'center'
     },
     input: {
         backgroundColor: '#ffffff',
@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
         height: 48,
         padding: 8,
         fontSize: 16,
-        marginBottom: 16
+        marginBottom: 16,
+        borderRadius: 10
     },
     footer: {
         flexDirection: 'row',

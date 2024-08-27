@@ -1,9 +1,10 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Dimensions, Image } from 'react-native'
 import { Link, router } from 'expo-router'
 import { useState } from 'react'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../config'
 
+import logo from '../../../assets/logo.png'
 import Button from '../../components/Button'
 
 const handlePress = (email: string, password: string): void => {
@@ -26,7 +27,8 @@ const SignUp = (): JSX.Element => {
     return (
         <View style={styles.container}>
             <View style={styles.inner}>
-                <Text style={styles.title}>Sign Up</Text>
+                <Image source={logo} style={styles.logo} />
+                <Text style={styles.title}>track link</Text>
                 <TextInput
                     style={styles.input}
                     value={email}
@@ -59,21 +61,31 @@ const SignUp = (): JSX.Element => {
     )
 }
 
+const { width } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F0F4F8'
+        backgroundColor: '#2C2C2C'
+    },
+    logo: {
+        width: width * 0.7,
+        height: width * 0.7,
+        marginTop: 80,
+        marginBottom: 24,
+        alignSelf: 'center'
     },
     inner: {
         paddingVertical: 24,
         paddingHorizontal: 27
     },
     title: {
-        fontSize: 24,
+        fontSize: 28,
         lineHeight: 32,
         fontWeight: 'bold',
-        marginBottom: 24
-
+        marginBottom: 24,
+        color: '#F86456',
+        textAlign: 'center'
     },
     input: {
         backgroundColor: '#ffffff',
@@ -82,16 +94,19 @@ const styles = StyleSheet.create({
         height: 48,
         padding: 8,
         fontSize: 16,
-        marginBottom: 16
+        marginBottom: 16,
+        borderRadius: 10
     },
     footer: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        justifyContent: 'center'
     },
     footerText: {
         fontSize: 14,
         lineHeight: 24,
         marginRight: 8,
-        color: '#000000'
+        color: '#ffffff',
+
     },
     footerLink: {
         fontSize: 14,
