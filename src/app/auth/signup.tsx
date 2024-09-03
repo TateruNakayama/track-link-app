@@ -54,7 +54,7 @@ const SignUp = (): JSX.Element => {
                     />
                     <Button
                     onPress={() => { handlePress(email, password) }}
-                    label='ログイン'
+                    label='登録'
                     style={isDisabled ? styles.disabledButton : styles.enabledButton}
                     disabled={isDisabled}
                     />
