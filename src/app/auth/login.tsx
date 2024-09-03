@@ -1,10 +1,10 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image, Dimensions, ScrollView, KeyboardAvoidingView} from 'react-native'
 import { Link, router } from 'expo-router'
 import { useState } from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../config'
 
-import logo from '../../../assets/logo.png'
+import mainlogo from '../../../assets/mainlogo.png'
 import Button from '../../components/Button'
 
 const handlePress = (email: string, password: string): void => {
@@ -24,11 +24,16 @@ const handlePress = (email: string, password: string): void => {
 const Login = (): JSX.Element => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const isDisabled = !email || !password
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView
+        style={styles.container}
+        behavior={'padding'}
+         >
+            <ScrollView contentContainerStyle={styles.inner} keyboardShouldPersistTaps='handled'>
             <View style={styles.inner}>
-            <Image source={logo} style={styles.logo} />
-                <Text style={styles.title}>Log In</Text>
+            <Image source={mainlogo} style={styles.logo} />
+            <Text style={styles.title}>Track Link</Text>
                 <TextInput
                     style={styles.input}
                     value={email}
@@ -47,29 +52,49 @@ const Login = (): JSX.Element => {
                     placeholder='Password'
                     textContentType='password'
                 />
-                <Button onPress={() => { handlePress(email, password) }} label='Submit' />
+
+                <Button
+                    onPress={() => { handlePress(email, password) }}
+                    label='ログイン'
+                    style={isDisabled ? styles.disabledButton : styles.enabledButton}
+                    disabled={isDisabled}
+                />
                 <View style={styles.footer}>
-                    <Text style={styles.footerText}>Not registered?</Text>
+                    <Text style={styles.footerText}>新規会員登録の方は</Text>
                     <Link href='/auth/signup' asChild>
                         <TouchableOpacity>
-                            <Text style={styles.footerLink}>Sign up here!</Text>
+                            <Text style={styles.footerLink}>こちら</Text>
                         </TouchableOpacity>
                     </Link>
                 </View>
             </View>
-        </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
     )
 }
+
+const { width } = Dimensions.get('window');
+
+
+
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F0F4F8'
+        backgroundColor: '#2C2C2C'
+    },
+    inner: {
+        paddingVertical: 24,
+        paddingHorizontal: 27,
+        flexGrow: 1,
+        justifyContent: 'center'
     },
     logo: {
-        width: 300,
-        height: 300,
-        marginBottom: 24
+        width: width * 0.4,
+        height: width * 0.4,
+        marginTop: 122,
+        marginBottom: 24,
+        alignSelf: 'center'
     },
     image: {
         flex: 1,
@@ -81,11 +106,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 27
     },
     title: {
-        fontSize: 24,
+        fontSize: 28,
         lineHeight: 32,
         fontWeight: 'bold',
-        marginBottom: 24
-
+        marginBottom: 110,
+        color: '#F86456',
+        textAlign: 'center',
     },
     input: {
         backgroundColor: '#ffffff',
@@ -94,22 +120,38 @@ const styles = StyleSheet.create({
         height: 48,
         padding: 8,
         fontSize: 16,
-        marginBottom: 16
+        marginBottom: 16,
+        borderRadius: 10
+    },
+    enabledButton: {
+        backgroundColor: '#467FD3',
+    },
+    disabledButton: {
+        backgroundColor: '#A9A9A9',
     },
     footer: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        justifyContent: 'center'
     },
     footerText: {
         fontSize: 14,
         lineHeight: 24,
         marginRight: 8,
-        color: '#000000'
+        color: '#ffffff'
     },
     footerLink: {
         fontSize: 14,
         lineHeight: 24,
         color: '#467FD3'
+    },
+
+    enabledButton: {
+        backgroundColor: '#F86456',
+    },
+    disabledButton: {
+        backgroundColor: '#A9A9A9',
     }
 })
+
 
 export default Login

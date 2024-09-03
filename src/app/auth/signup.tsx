@@ -1,9 +1,10 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Dimensions, Image, ScrollView, KeyboardAvoidingView } from 'react-native'
 import { Link, router } from 'expo-router'
 import { useState } from 'react'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../config'
 
+import mainlogo from '../../../assets/mainlogo.png'
 import Button from '../../components/Button'
 
 const handlePress = (email: string, password: string): void => {
@@ -23,57 +24,90 @@ const handlePress = (email: string, password: string): void => {
 const SignUp = (): JSX.Element => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const isDisabled = !email || !password
     return (
-        <View style={styles.container}>
-            <View style={styles.inner}>
-                <Text style={styles.title}>Sign Up</Text>
-                <TextInput
-                    style={styles.input}
-                    value={email}
-                    onChangeText={(text) => { setEmail(text) }}
-                    autoCapitalize='none'
-                    keyboardType='email-address'
-                    placeholder='Email Address'
-                    textContentType='emailAddress'
-                />
-                <TextInput
-                    style={styles.input}
-                    value={password}
-                    onChangeText={(text) => { setPassword(text) }}
-                    autoCapitalize='none'
-                    secureTextEntry
-                    placeholder='Password'
-                    textContentType='password'
-                />
-                <Button onPress={() => { handlePress(email, password) }} label='Submit' />
-                <View style={styles.footer}>
-                    <Text style={styles.footerText}>Already registered?</Text>
-                    <Link href='/auth/login' asChild>
-                        <TouchableOpacity>
-                            <Text style={styles.footerLink}>Log In</Text>
-                        </TouchableOpacity>
-                    </Link>
+<KeyboardAvoidingView
+        style={styles.container}
+        behavior={'padding'}
+         >
+            <ScrollView contentContainerStyle={styles.inner} keyboardShouldPersistTaps='handled'>
+                <View style={styles.inner}>
+                    <Image source={mainlogo} style={styles.logo} />
+                    <Text style={styles.title}>Track Link</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={email}
+                        onChangeText={(text) => { setEmail(text) }}
+                        autoCapitalize='none'
+                        keyboardType='email-address'
+                        placeholder='Email Address'
+                        textContentType='emailAddress'
+                    />
+                    <TextInput
+                        style={styles.input}
+                        value={password}
+                        onChangeText={(text) => { setPassword(text) }}
+                        autoCapitalize='none'
+                        secureTextEntry
+                        placeholder='Password'
+                        textContentType='password'
+                    />
+                    <Button
+                    onPress={() => { handlePress(email, password) }}
+                    label='登録'
+                    style={isDisabled ? styles.disabledButton : styles.enabledButton}
+                    disabled={isDisabled}
+                    />
+                    <View style={styles.footer}>
+                        <Text style={styles.footerText}>登録がお済みの方は</Text>
+                        <Link href='/auth/login' asChild>
+                            <TouchableOpacity>
+                                <Text style={styles.footerLink}>ログイン</Text>
+                            </TouchableOpacity>
+                            </Link>
+                    </View>
                 </View>
-            </View>
-        </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
     )
 }
+
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F0F4F8'
+        backgroundColor: '#2C2C2C'
+    },
+    inner: {
+        paddingVertical: 24,
+        paddingHorizontal: 27,
+        flexGrow: 1,
+        justifyContent: 'center'
+    },
+    logo: {
+        width: width * 0.4,
+        height: width * 0.4,
+        marginTop: 122,
+        marginBottom: 24,
+        alignSelf: 'center'
+    },
+    image: {
+        flex: 1,
+        width: '100%',
+        backgroundColor: '#0553'
     },
     inner: {
         paddingVertical: 24,
         paddingHorizontal: 27
     },
     title: {
-        fontSize: 24,
+        fontSize: 28,
         lineHeight: 32,
         fontWeight: 'bold',
-        marginBottom: 24
-
+        marginBottom: 110,
+        color: '#F86456',
+        textAlign: 'center',
     },
     input: {
         backgroundColor: '#ffffff',
@@ -82,16 +116,24 @@ const styles = StyleSheet.create({
         height: 48,
         padding: 8,
         fontSize: 16,
-        marginBottom: 16
+        marginBottom: 16,
+        borderRadius: 10
+    },
+    enabledButton: {
+        backgroundColor: '#F86456',
+    },
+    disabledButton: {
+        backgroundColor: '#A9A9A9',
     },
     footer: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        justifyContent: 'center'
     },
     footerText: {
         fontSize: 14,
         lineHeight: 24,
         marginRight: 8,
-        color: '#000000'
+        color: '#ffffff'
     },
     footerLink: {
         fontSize: 14,
