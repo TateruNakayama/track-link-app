@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Dimensions, Image } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Dimensions, Image, ScrollView, KeyboardAvoidingView } from 'react-native'
 import { Link, router } from 'expo-router'
 import { useState } from 'react'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
@@ -24,40 +24,51 @@ const handlePress = (email: string, password: string): void => {
 const SignUp = (): JSX.Element => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const isDisabled = !email || !password
     return (
-        <View style={styles.container}>
-            <View style={styles.inner}>
-                <Image source={mainlogo} style={styles.logo} />
-                <Text style={styles.title}>Track Link</Text>
-                <TextInput
-                    style={styles.input}
-                    value={email}
-                    onChangeText={(text) => { setEmail(text) }}
-                    autoCapitalize='none'
-                    keyboardType='email-address'
-                    placeholder='Email Address'
-                    textContentType='emailAddress'
-                />
-                <TextInput
-                    style={styles.input}
-                    value={password}
-                    onChangeText={(text) => { setPassword(text) }}
-                    autoCapitalize='none'
-                    secureTextEntry
-                    placeholder='Password'
-                    textContentType='password'
-                />
-                <Button onPress={() => { handlePress(email, password) }} label='Submit' />
-                <View style={styles.footer}>
-                    <Text style={styles.footerText}>Already registered?</Text>
-                    <Link href='/auth/login' asChild>
-                        <TouchableOpacity>
-                            <Text style={styles.footerLink}>Log In</Text>
-                        </TouchableOpacity>
-                    </Link>
+<KeyboardAvoidingView
+        style={styles.container}
+        behavior={'padding'}
+         >
+            <ScrollView contentContainerStyle={styles.inner} keyboardShouldPersistTaps='handled'>
+                <View style={styles.inner}>
+                    <Image source={mainlogo} style={styles.logo} />
+                    <Text style={styles.title}>Track Link</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={email}
+                        onChangeText={(text) => { setEmail(text) }}
+                        autoCapitalize='none'
+                        keyboardType='email-address'
+                        placeholder='Email Address'
+                        textContentType='emailAddress'
+                    />
+                    <TextInput
+                        style={styles.input}
+                        value={password}
+                        onChangeText={(text) => { setPassword(text) }}
+                        autoCapitalize='none'
+                        secureTextEntry
+                        placeholder='Password'
+                        textContentType='password'
+                    />
+                    <Button
+                    onPress={() => { handlePress(email, password) }}
+                    label='ログイン'
+                    style={isDisabled ? styles.disabledButton : styles.enabledButton}
+                    disabled={isDisabled}
+                    />
+                    <View style={styles.footer}>
+                        <Text style={styles.footerText}>登録がお済みの方は</Text>
+                        <Link href='/auth/login' asChild>
+                            <TouchableOpacity>
+                                <Text style={styles.footerLink}>ログイン</Text>
+                            </TouchableOpacity>
+                            </Link>
+                    </View>
                 </View>
-            </View>
-        </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
     )
 }
 
@@ -68,12 +79,23 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#2C2C2C'
     },
+    inner: {
+        paddingVertical: 24,
+        paddingHorizontal: 27,
+        flexGrow: 1,
+        justifyContent: 'center'
+    },
     logo: {
         width: width * 0.4,
         height: width * 0.4,
-        marginTop: 80,
+        marginTop: 122,
         marginBottom: 24,
         alignSelf: 'center'
+    },
+    image: {
+        flex: 1,
+        width: '100%',
+        backgroundColor: '#0553'
     },
     inner: {
         paddingVertical: 24,
@@ -83,9 +105,9 @@ const styles = StyleSheet.create({
         fontSize: 28,
         lineHeight: 32,
         fontWeight: 'bold',
-        marginBottom: 24,
+        marginBottom: 110,
         color: '#F86456',
-        textAlign: 'center'
+        textAlign: 'center',
     },
     input: {
         backgroundColor: '#ffffff',
@@ -97,6 +119,12 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         borderRadius: 10
     },
+    enabledButton: {
+        backgroundColor: '#F86456',
+    },
+    disabledButton: {
+        backgroundColor: '#A9A9A9',
+    },
     footer: {
         flexDirection: 'row',
         justifyContent: 'center'
@@ -105,8 +133,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         lineHeight: 24,
         marginRight: 8,
-        color: '#ffffff',
-
+        color: '#ffffff'
     },
     footerLink: {
         fontSize: 14,

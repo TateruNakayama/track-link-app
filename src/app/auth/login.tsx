@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image, Dimensions,} from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image, Dimensions, ScrollView, KeyboardAvoidingView} from 'react-native'
 import { Link, router } from 'expo-router'
 import { useState } from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
@@ -26,7 +26,11 @@ const Login = (): JSX.Element => {
     const [password, setPassword] = useState('')
     const isDisabled = !email || !password
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView
+        style={styles.container}
+        behavior={'padding'}
+         >
+            <ScrollView contentContainerStyle={styles.inner} keyboardShouldPersistTaps='handled'>
             <View style={styles.inner}>
             <Image source={mainlogo} style={styles.logo} />
             <Text style={styles.title}>Track Link</Text>
@@ -49,8 +53,12 @@ const Login = (): JSX.Element => {
                     textContentType='password'
                 />
 
-                <Button onPress={() => { handlePress(email, password) }} label='Submit' />                
-
+                <Button
+                    onPress={() => { handlePress(email, password) }}
+                    label='ログイン'
+                    style={isDisabled ? styles.disabledButton : styles.enabledButton}
+                    disabled={isDisabled}
+                />
                 <View style={styles.footer}>
                     <Text style={styles.footerText}>新規会員登録の方は</Text>
                     <Link href='/auth/signup' asChild>
@@ -60,7 +68,8 @@ const Login = (): JSX.Element => {
                     </Link>
                 </View>
             </View>
-        </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
     )
 }
 
@@ -73,6 +82,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#2C2C2C'
+    },
+    inner: {
+        paddingVertical: 24,
+        paddingHorizontal: 27,
+        flexGrow: 1,
+        justifyContent: 'center'
     },
     logo: {
         width: width * 0.4,
@@ -128,6 +143,13 @@ const styles = StyleSheet.create({
         fontSize: 14,
         lineHeight: 24,
         color: '#467FD3'
+    },
+
+    enabledButton: {
+        backgroundColor: '#F86456',
+    },
+    disabledButton: {
+        backgroundColor: '#A9A9A9',
     }
 })
 
